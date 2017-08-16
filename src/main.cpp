@@ -22,9 +22,9 @@ public:
 
     void render(double currentTime)
     {
-        static const GLfloat color[] = { (float)std::sin(currentTime) * 0.5f + 0.5f, 
-                                         (float)std::cos(currentTime) * 0.5f + 0.5f,
-                                         0.0f, 1.0f};
+        const GLfloat color[] = { (float)std::sin(currentTime) * 0.5f + 0.5f, 
+                                  (float)std::cos(currentTime) * 0.5f + 0.5f,
+                                  0.0f, 1.0f};
         glClearBufferfv(GL_COLOR, 0, color);
 
         glUseProgram(rendering_program);

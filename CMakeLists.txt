@@ -17,8 +17,7 @@ target_include_directories(openglsb
 
 target_link_libraries(openglsb
     PUBLIC 
-        glfw 
-        dl)
+        glfw)
 
 if(OPENGL_FOUND)
     target_link_libraries(openglsb 
