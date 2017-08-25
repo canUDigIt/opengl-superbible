@@ -2,6 +2,9 @@
 
 #include <cmath>
 #include <memory>
+#include <iostream>
+#include <string>
+#include <vector>
 
 class my_app : public application
 {
@@ -22,15 +25,12 @@ public:
 
     void render(double currentTime)
     {
-        const GLfloat color[] = { (float)std::sin(currentTime) * 0.5f + 0.5f, 
-                                  (float)std::cos(currentTime) * 0.5f + 0.5f,
-                                  0.0f, 1.0f};
+        const GLfloat color[] = { 0.0f, 0.2f, 0.0, 1.0f };
         glClearBufferfv(GL_COLOR, 0, color);
 
         glUseProgram(rendering_program);
 
-        glPointSize(40.0f);
-        glDrawArrays(GL_POINTS, 0, 1);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
 private:
@@ -43,24 +43,32 @@ private:
         // Source code for vertex shader
         static const GLchar* vertex_shader_source[] = 
         {
-            "#version 450 core \n",
-            "\n",
-            "void main(void) \n",
-            "{ \n",
-            "   gl_Position = vec4(0.0, 0.0, 0.0, 1.0); \n",
+            "#version 450 core \n"
+            "\n"
+            "void main(void) \n"
+            "{ \n"
+            "   // Declare a hard-coded array of positions \n"
+            "   const vec4 vertices[3] = { \n"
+            "       vec4(  0.25, -0.25, 0.5, 1.0 ), \n"
+            "       vec4( -0.25, -0.25, 0.5, 1.0 ), \n"
+            "       vec4(  0.25,  0.25, 0.5, 1.0 ) \n"
+            "   };\n"
+            " \n"
+            "   // Index into our array using gl_VertexID \n"
+            "   gl_Position = vertices[gl_VertexID]; \n"
             "} \n"
         };
 
         // Source code for fragment shader
         static const GLchar* fragment_shader_source[] = 
         {
-            "#version 450 core \n",
-            " \n", 
-            "out vec4 color; \n",
-            " \n",
-            "void main(void) \n", 
+            "#version 450 core \n"
+            " \n"
+            "out vec4 color; \n"
+            " \n"
+            "void main(void) \n" 
             "{ \n"
-            "   color = vec4(0.0, 0.8, 1.0, 1.0); \n",
+            "   color = vec4(0.0, 0.8, 1.0, 1.0); \n"
             "} \n"
         };
         
@@ -69,11 +77,38 @@ private:
         glShaderSource(vertex_shader, 1, vertex_shader_source, nullptr);
         glCompileShader(vertex_shader);
 
+        GLint success = 0;
+        glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+
+        if (success == GL_FALSE)
+        {
+            GLint log_length;
+            glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &log_length);
+
+            std::vector<char> log_data(log_length);
+            glGetShaderInfoLog(vertex_shader, log_length, nullptr, log_data.data());
+            std::string log(std::begin(log_data), std::end(log_data));
+            std::cout << log << std::endl;
+        }
+
         // Create and compile fragment shader
         fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment_shader, 1, fragment_shader_source, nullptr);
         glCompileShader(fragment_shader);
 
+        glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+
+        if (success == GL_FALSE)
+        {
+            GLint log_length;
+            glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &log_length);
+
+            std::vector<char> log_data(log_length);
+            glGetShaderInfoLog(fragment_shader, log_length, nullptr, log_data.data());
+            std::string log(std::begin(log_data), std::end(log_data));
+            std::cout << log << std::endl;
+        }
+        
         // Create program and attach shaders to it, and link it
         program = glCreateProgram();
         glAttachShader(program, vertex_shader);
