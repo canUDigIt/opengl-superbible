@@ -25,10 +25,19 @@ public:
 
     void render(double currentTime)
     {
-        const GLfloat color[] = { 0.0f, 0.2f, 0.0, 1.0f };
+        const GLfloat color[] = { (float)sin(currentTime) * 0.5f + 0.5f,
+                                  (float)cos(currentTime) * 0.5f + 0.5f,
+                                  0.0f, 0.0 };
+
         glClearBufferfv(GL_COLOR, 0, color);
 
         glUseProgram(rendering_program);
+
+        const GLfloat attrib[] = { (float)sin(currentTime) * 0.5f,
+                                   (float)cos(currentTime) * 0.6f,
+                                   0.0f, 0.0f };
+
+        glVertexAttrib4fv(0, attrib);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
     }
@@ -43,35 +52,38 @@ private:
         // Source code for vertex shader
         static const GLchar* vertex_shader_source[] = 
         {
-            "#version 450 core \n"
-            "\n"
-            "void main(void) \n"
-            "{ \n"
-            "   // Declare a hard-coded array of positions \n"
-            "   const vec4 vertices[3] = { \n"
-            "       vec4(  0.25, -0.25, 0.5, 1.0 ), \n"
-            "       vec4( -0.25, -0.25, 0.5, 1.0 ), \n"
-            "       vec4(  0.25,  0.25, 0.5, 1.0 ) \n"
-            "   };\n"
-            " \n"
-            "   // Index into our array using gl_VertexID \n"
-            "   gl_Position = vertices[gl_VertexID]; \n"
-            "} \n"
+            "#version 450 core                                \n"
+            "                                                 \n"
+            "                                                 \n"
+            "layout (location = 0) in vec4 offset;            \n"
+            "                                                 \n"
+            "void main(void)                                  \n"
+            "{                                                \n"
+            "   // Declare a hard-coded array of positions    \n"
+            "   const vec4 vertices[3] = {                    \n"
+            "       vec4(  0.25, -0.25, 0.5, 1.0 ),           \n"
+            "       vec4( -0.25, -0.25, 0.5, 1.0 ),           \n"
+            "       vec4(  0.25,  0.25, 0.5, 1.0 )            \n"
+            "   };                                            \n"
+            "                                                 \n"
+            "   // Index into our array using gl_VertexID     \n"
+            "   gl_Position = vertices[gl_VertexID] + offset; \n"
+            "}                                                \n"
         };
 
         // Source code for fragment shader
         static const GLchar* fragment_shader_source[] = 
         {
-            "#version 450 core \n"
-            " \n"
-            "out vec4 color; \n"
-            " \n"
-            "void main(void) \n" 
-            "{ \n"
+            "#version 450 core                    \n"
+            "                                     \n"
+            "out vec4 color;                      \n"
+            "                                     \n"
+            "void main(void)                      \n"
+            "{                                    \n"
             "   color = vec4(0.0, 0.8, 1.0, 1.0); \n"
-            "} \n"
+            "}                                    \n"
         };
-        
+
         // Create and compile vertex shader
         vertex_shader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex_shader, 1, vertex_shader_source, nullptr);
@@ -108,7 +120,7 @@ private:
             std::string log(std::begin(log_data), std::end(log_data));
             std::cout << log << std::endl;
         }
-        
+
         // Create program and attach shaders to it, and link it
         program = glCreateProgram();
         glAttachShader(program, vertex_shader);
@@ -118,7 +130,7 @@ private:
         // Delete the shaders as the program has them now
         glDeleteShader(vertex_shader);
         glDeleteShader(fragment_shader);
-        
+
         return program;
     }
 
