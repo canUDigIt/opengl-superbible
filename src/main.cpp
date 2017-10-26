@@ -111,18 +111,26 @@ public:
         glClearBufferfv(GL_COLOR, 0, green);
         glClearBufferfv(GL_DEPTH, 0, &one);
 
-        float k = (float)currentTime * glm::pi<float>() * 0.1f;
-        glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -4.0f });
-        mv_matrix = glm::translate(mv_matrix, { std::sinf(2.1f * k) * 0.5f, std::cosf(1.7f* k) * 0.5f, std::sinf(1.3f * k) * 0.5f });
-        mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
-        mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(81.0f), { 1.0f, 0.0f, 0.0f });
-
         glUseProgram(rendering_program);
 
-        glUniformMatrix4fv(glGetUniformLocation(rendering_program, "mv_matrix"), 1, GL_FALSE, glm::value_ptr(mv_matrix));
         glUniformMatrix4fv(glGetUniformLocation(rendering_program, "proj_matrix"), 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        GLuint mv_location = glGetUniformLocation(rendering_program, "mv_matrix");
+        for (int i = 0; i < 24; ++i)
+        {
+            float k = (float)i + (float)currentTime * 0.3f;
+            glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -20.0f });
+            mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
+            mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(21.0f), { 1.0f, 0.0f, 0.0f });
+            mv_matrix = glm::translate(mv_matrix, { 
+                std::sinf(2.1f * k) * 2.0f, 
+                std::cosf(1.7f * k) * 2.0f, 
+                std::sinf(1.3f * k) * std::cosf(1.5f * k) * 2.0f });
+
+            glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
     }
 
     void resize(int width, int height)
