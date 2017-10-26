@@ -24,42 +24,53 @@ public:
         glCreateVertexArrays(1, &vao);
 
         static const GLfloat vertices[] = {
-            -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-            -1.0f,-1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f, // triangle 1 : end
-             1.0f, 1.0f,-1.0f, // triangle 2 : begin
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f,-1.0f, // triangle 2 : end
-             1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f,-1.0f,
-             1.0f,-1.0f,-1.0f,
-             1.0f, 1.0f,-1.0f,
-             1.0f,-1.0f,-1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f,-1.0f,
-             1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f,-1.0f, 1.0f,
-             1.0f,-1.0f, 1.0f,
-             1.0f, 1.0f, 1.0f,
-             1.0f,-1.0f,-1.0f,
-             1.0f, 1.0f,-1.0f,
-             1.0f,-1.0f,-1.0f,
-             1.0f, 1.0f, 1.0f,
-             1.0f,-1.0f, 1.0f,
-             1.0f, 1.0f, 1.0f,
-             1.0f, 1.0f,-1.0f,
-            -1.0f, 1.0f,-1.0f,
-             1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-             1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-             1.0f,-1.0f, 1.0f
+            -0.25f,  0.25f, -0.25f,
+            -0.25f, -0.25f, -0.25f,
+             0.25f, -0.25f, -0.25f,
+
+             0.25f, -0.25f, -0.25f,
+             0.25f,  0.25f, -0.25f,
+            -0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f, -0.25f,
+             0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+             0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f,  0.25f,
+            -0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+            -0.25f,  0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+            -0.25f, -0.25f, -0.25f,
+            -0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f, -0.25f,
+            -0.25f,  0.25f, -0.25f,
+            -0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+             0.25f, -0.25f,  0.25f,
+             0.25f, -0.25f, -0.25f,
+
+             0.25f, -0.25f, -0.25f,
+            -0.25f, -0.25f, -0.25f,
+            -0.25f, -0.25f,  0.25f,
+
+            -0.25f,  0.25f, -0.25f,
+             0.25f,  0.25f, -0.25f,
+             0.25f,  0.25f,  0.25f,
+
+             0.25f,  0.25f,  0.25f,
+            -0.25f,  0.25f,  0.25f,
+            -0.25f,  0.25f, -0.25f
         };
 
         glCreateBuffers(1, &geometry);
@@ -99,18 +110,13 @@ public:
         mv_matrix = glm::translate(mv_matrix, { std::sinf(2.1f * k) * 0.5f, std::cosf(1.7f* k) * 0.5f, std::sinf(1.3f * k) * 0.5f });
         mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
         mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(81.0f), { 1.0f, 0.0f, 0.0f });
-        mv_matrix = glm::scale(mv_matrix, { 0.25, 0.25, 0.25 });
 
         glUseProgram(rendering_program);
 
         glUniformMatrix4fv(glGetUniformLocation(rendering_program, "mv_matrix"), 1, GL_FALSE, glm::value_ptr(mv_matrix));
         glUniformMatrix4fv(glGetUniformLocation(rendering_program, "proj_matrix"), 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
-        glBindBuffer(GL_ARRAY_BUFFER, geometry);
-
         glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     void resize(int width, int height)
@@ -119,6 +125,8 @@ public:
         mHeight = height;
         float aspect = (float)mWidth / (float)mHeight;
         proj_matrix = glm::perspective(50.0f, aspect, 0.1f, 1000.0f);
+
+        glViewport(0, 0, mWidth, mHeight);
     }
 private:
     GLuint createShader(GLenum type, const char* source)
