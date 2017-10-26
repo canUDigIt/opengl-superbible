@@ -101,7 +101,7 @@ public:
         return EXIT_SUCCESS;
     }
 
-private:
+protected:
     unsigned int mWidth;
     unsigned int mHeight;
 };

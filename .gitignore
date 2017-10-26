@@ -2,5 +2,6 @@ build/
 builds/
 
 .vs/
+.vscode/
 
 tags

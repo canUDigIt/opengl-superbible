@@ -14,7 +14,9 @@ add_executable(openglsb
     ${CMAKE_SOURCE_DIR}/dependencies/glad/src/glad.c)
 
 target_include_directories(openglsb
-    PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/glad/include
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/dependencies/glad/include
+        ${CMAKE_SOURCE_DIR}/dependencies/glm-0.9.8.5
     PRIVATE
         src
         include)
