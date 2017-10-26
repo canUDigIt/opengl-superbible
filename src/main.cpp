@@ -88,6 +88,12 @@ public:
         glEnableVertexArrayAttrib(vao, position_index);
 
         glBindVertexArray(vao);
+
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
     }
 
     void shutdown()
@@ -99,11 +105,11 @@ public:
 
     void render(double currentTime)
     {
-        const GLfloat color[] = { (float)sin(currentTime) * 0.5f + 0.5f,
-                                  (float)cos(currentTime) * 0.5f + 0.5f,
-                                  0.0f, 0.0 };
+        const GLfloat green[] = { 0.0f, 0.25f, 0.0f, 0.0 };
+        GLfloat one = 1.0f;
 
-        glClearBufferfv(GL_COLOR, 0, color);
+        glClearBufferfv(GL_COLOR, 0, green);
+        glClearBufferfv(GL_DEPTH, 0, &one);
 
         float k = (float)currentTime * glm::pi<float>() * 0.1f;
         glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -4.0f });
