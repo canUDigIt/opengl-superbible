@@ -122,10 +122,10 @@ public:
             glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -20.0f });
             mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
             mv_matrix = glm::rotate(mv_matrix, (float)currentTime * glm::radians(21.0f), { 1.0f, 0.0f, 0.0f });
-            mv_matrix = glm::translate(mv_matrix, { 
-                std::sinf(2.1f * k) * 2.0f, 
-                std::cosf(1.7f * k) * 2.0f, 
-                std::sinf(1.3f * k) * std::cosf(1.5f * k) * 2.0f });
+            mv_matrix = glm::translate(mv_matrix, {
+                std::sin(2.1f * k) * 2.0f,
+                std::cos(1.7f * k) * 2.0f,
+                std::sin(1.3f * k) * std::cos(1.5f * k) * 2.0f });
 
             glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
 
