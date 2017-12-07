@@ -1,4 +1,4 @@
-#include "../include/application.h"
+#include "application.h"
 
 #include <glm/gtc/constants.hpp>
 #include <glm/mat4x4.hpp>
