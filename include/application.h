@@ -33,7 +33,7 @@ public:
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
         auto mWindow = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
         // Check for Valid Context
@@ -54,11 +54,11 @@ public:
 
         auto resizeCallback = [](GLFWwindow* window, int w, int h){
             auto self = static_cast<application*>(glfwGetWindowUserPointer(window));
-            self->resize(w, h); 
+            self->resize(w, h);
         };
         auto keyCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods){
             auto self = static_cast<application*>(glfwGetWindowUserPointer(window));
-            self->onKeyPress(key, action); 
+            self->onKeyPress(key, action);
         };
         auto mouseButtonCallback = [](GLFWwindow* window, int button, int action, int mods){
             auto self = static_cast<application*>(glfwGetWindowUserPointer(window));

@@ -12,16 +12,17 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(dependencies/glfw-3.2.1)
 
 add_executable(openglsb
-    src/main.cpp
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
     ${CMAKE_SOURCE_DIR}/dependencies/glad/src/glad.c)
 
 target_include_directories(openglsb
     PUBLIC
         ${CMAKE_SOURCE_DIR}/dependencies/glad/include
         ${CMAKE_SOURCE_DIR}/dependencies/glm-0.9.8.5
+        ${CMAKE_SOURCE_DIR}/dependencies/gli
     PRIVATE
-        src
-        include)
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/include)
 
 target_link_libraries(openglsb
     PRIVATE
