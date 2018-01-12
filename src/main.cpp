@@ -35,7 +35,7 @@ public:
 
         glBindTextureUnit(0, texture_name);
 
-        gli::texture alien_texture = gli::load("../bin/media/aliens.ktx");
+        gli::texture alien_texture = gli::load("media/aliens.ktx");
 
         gli::gl GL(gli::gl::PROFILE_GL33);
         gli::gl::format format = GL.translate(alien_texture.format(), alien_texture.swizzles());
@@ -115,7 +115,7 @@ public:
 
         for (int i = 0; i < 256; ++i) {
             data[i][0] = droplets[i].x_offset;
-            data[i][1] = 2 - fmodf((t + 1) * droplets[i].fall_speed, 4.31);
+            data[i][1] = 2.0f - fmodf((t + 1) * droplets[i].fall_speed, 4.31f);
             data[i][2] = t * droplets[i].rotation_speed;
             data[i][3] = 0;
         }

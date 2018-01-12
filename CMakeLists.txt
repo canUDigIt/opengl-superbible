@@ -39,3 +39,8 @@ target_compile_features(openglsb
         cxx_range_for
     PRIVATE
         cxx_variadic_templates)
+
+add_custom_command(TARGET openglsb POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/bin/media/aliens.ktx
+            $<TARGET_FILE_DIR:openglsb>/media/aliens.ktx)
