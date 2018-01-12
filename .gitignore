@@ -1,6 +1,7 @@
 build/
 builds/
 
+vsbuild/
 .vs/
 .vscode/
 
