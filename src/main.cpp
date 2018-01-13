@@ -43,7 +43,7 @@ public:
 
         glTextureStorage3D(
                 texture_name,
-                0,
+                1,
                 format.Internal,
                 extent.x,
                 extent.y,
@@ -56,10 +56,10 @@ public:
                     0,
                     0,
                     0,
-                    0,
+                    static_cast<GLint>(layer),
                     extent.x,
                     extent.y,
-                    static_cast<GLint>(layer),
+                    extent.z,
                     format.External,
                     format.Type,
                     alien_texture.data(layer, 0, 0));
