@@ -16,11 +16,10 @@ add_executable(openglsb
     ${CMAKE_SOURCE_DIR}/dependencies/glad/src/glad.c)
 
 target_include_directories(openglsb
-    PUBLIC
+    PRIVATE
         ${CMAKE_SOURCE_DIR}/dependencies/glad/include
         ${CMAKE_SOURCE_DIR}/dependencies/glm-0.9.8.5
         ${CMAKE_SOURCE_DIR}/dependencies/gli
-    PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/include)
 
@@ -34,10 +33,9 @@ if(OPENGL_FOUND)
 endif()
 
 target_compile_features(openglsb
-    PUBLIC
+    PRIVATE
         cxx_auto_type
         cxx_range_for
-    PRIVATE
         cxx_variadic_templates)
 
 add_custom_command(TARGET openglsb POST_BUILD
