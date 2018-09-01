@@ -99,7 +99,6 @@ public:
     {
         mWidth = width;
         mHeight = height;
-        float aspect = (float)mWidth / (float)mHeight;
 
         glViewport(0, 0, mWidth, mHeight);
     }

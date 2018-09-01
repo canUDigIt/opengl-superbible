@@ -38,6 +38,10 @@ target_compile_features(openglsb
         cxx_range_for
         cxx_variadic_templates)
 
+target_compile_definitions(openglsb
+    PRIVATE
+        _CRT_SECURE_NO_WARNINGS)
+
 add_custom_command(TARGET openglsb POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/bin/media/aliens.ktx
