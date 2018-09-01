@@ -30,40 +30,7 @@ public:
         rendering_program = compileShaders();
         glCreateVertexArrays(1, &vao);
 
-        /* texture_name = createTexture("../bin/media/aliens.ktx"); */
-        glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &texture_name);
-
-        glBindTextureUnit(0, texture_name);
-
-        gli::texture alien_texture = gli::load("media/aliens.ktx");
-
-        gli::gl GL(gli::gl::PROFILE_GL33);
-        gli::gl::format format = GL.translate(alien_texture.format(), alien_texture.swizzles());
-        glm::tvec3<GLsizei> const extent(alien_texture.extent());
-
-        glTextureStorage3D(
-                texture_name,
-                1,
-                format.Internal,
-                extent.x,
-                extent.y,
-                alien_texture.layers());
-
-        for(std::size_t layer = 0; layer < alien_texture.layers(); ++layer)
-        {
-            glTextureSubImage3D(
-                    texture_name,
-                    0,
-                    0,
-                    0,
-                    static_cast<GLint>(layer),
-                    extent.x,
-                    extent.y,
-                    extent.z,
-                    format.External,
-                    format.Type,
-                    alien_texture.data(layer, 0, 0));
-        }
+        texture_name = createTexture("../bin/media/aliens.ktx");
 
         glCreateBuffers(1, &alien_data);
         glNamedBufferStorage(alien_data, 256 * sizeof(glm::vec4), nullptr, GL_MAP_WRITE_BIT);
@@ -276,7 +243,7 @@ private:
                                 static_cast<GLint>(level),
                                 0,
                                 0,
-                                0,
+                                texture.target() == gli::TARGET_3D ? 0 : layerGL,
                                 extent.x,
                                 extent.y,
                                 texture.target() == gli::TARGET_3D ? extent.z : layerGL,
@@ -291,7 +258,7 @@ private:
                                 static_cast<GLint>(level),
                                 0,
                                 0,
-                                0,
+                                texture.target() == gli::TARGET_3D ? 0 : layerGL,
                                 extent.x,
                                 extent.y,
                                 texture.target() == gli::TARGET_3D ? extent.z : layerGL,
