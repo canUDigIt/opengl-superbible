@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 project(openglsb VERSION 0.1 LANGUAGES C CXX)
 
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -27,10 +28,11 @@ target_link_libraries(openglsb
     PRIVATE
         glfw)
 
-if(OPENGL_FOUND)
-    target_include_directories(openglsb PRIVATE ${OPENGL_INCLUDE_DIR})
-    target_link_libraries(openglsb PRIVATE ${OPENGL_gl_LIBRARY})
-endif()
+target_link_libraries(openglsb
+    PRIVATE
+        OpenGL::OpenGL
+        OpenGL::GLX
+        OpenGL::GLU)
 
 target_compile_features(openglsb
     PUBLIC
