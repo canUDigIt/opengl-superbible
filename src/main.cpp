@@ -157,10 +157,9 @@ private:
             GLint log_length;
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
 
-            std::vector<char> log_data(log_length);
-            glGetShaderInfoLog(shader, log_length, nullptr, log_data.data());
-            std::string log(std::begin(log_data), std::end(log_data));
-            std::cout << log << std::endl;
+            std::string log(log_length, ' ');
+            glGetShaderInfoLog(shader, log_length, nullptr, &log[0]);
+            std::cout << log << "\n";
         }
         return shader;
     }
