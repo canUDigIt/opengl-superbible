@@ -17,7 +17,7 @@ add_executable(openglsb
     dependencies/glad/src/glad.c)
 
 target_include_directories(openglsb
-    PUBLIC
+    PRIVATE
         dependencies/glad/include
         dependencies/glm-0.9.8.5
 )
@@ -32,10 +32,8 @@ target_link_libraries(openglsb
 )
 
 target_compile_features(openglsb
-    PUBLIC
+    PRIVATE
         cxx_auto_type
         cxx_range_for
-
-    PRIVATE
         cxx_variadic_templates
 )

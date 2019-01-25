@@ -35,16 +35,18 @@ public:
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
         auto mWindow = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
-        // Check for Valid Context
         if (mWindow == nullptr) {
-            std::cerr << "Failed to Create OpenGL Context" << std::endl;
+            std::cerr << "Failed to create a GLFW window\n";
             return EXIT_FAILURE;
         }
 
         // Create Context and Load OpenGL Functions
         glfwMakeContextCurrent(mWindow);
-        gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-        std::cerr << "OpenGL "<< glGetString(GL_VERSION) << std::endl;
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+            std::cerr << "Failed to initialize OpenGL context\n";
+        }
+
+        std::cout << "OpenGL " << glGetString(GL_VERSION) << "\n";
 
         // Setting up callbacks
         //
