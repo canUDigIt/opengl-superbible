@@ -20,10 +20,7 @@ target_include_directories(openglsb
     PUBLIC
         dependencies/glad/include
         dependencies/glm-0.9.8.5
-
-    PRIVATE
-        src
-        include)
+)
 
 target_link_libraries(openglsb
     PRIVATE
@@ -31,7 +28,8 @@ target_link_libraries(openglsb
 
         OpenGL::OpenGL
         OpenGL::GLX
-        OpenGL::GLU)
+        OpenGL::GLU
+)
 
 target_compile_features(openglsb
     PUBLIC
@@ -39,4 +37,5 @@ target_compile_features(openglsb
         cxx_range_for
 
     PRIVATE
-        cxx_variadic_templates)
+        cxx_variadic_templates
+)
