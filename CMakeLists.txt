@@ -1,37 +1,29 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.11)
 
 project(openglsb VERSION 0.1 LANGUAGES C CXX)
 
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/dependencies")
 
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(dependencies/glfw-3.2.1)
-
-add_executable(openglsb
+add_executable(${PROJECT_NAME}
     src/main.cpp
-    dependencies/glad/src/glad.c)
-
-target_include_directories(openglsb
-    PRIVATE
-        dependencies/glad/include
-        dependencies/glm-0.9.8.5
+    src/application.h
 )
 
-target_link_libraries(openglsb
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
         glfw
+        glad
+        glm
 
         OpenGL::OpenGL
         OpenGL::GLX
         OpenGL::GLU
 )
 
-target_compile_features(openglsb
+target_compile_features(${PROJECT_NAME}
     PRIVATE
         cxx_auto_type
         cxx_range_for
