@@ -5,6 +5,8 @@ project(openglsb VERSION 0.1 LANGUAGES C CXX)
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/dependencies")
 
 add_executable(${PROJECT_NAME}
